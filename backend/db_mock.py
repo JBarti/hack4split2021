@@ -1,4 +1,18 @@
 db_mock = {
+    "organisation_account": {
+        # One organisation can have multiple accounts linked to it
+        "stanko": {
+            "password": "hashhashhash",
+            "email": "email@gmail.com",
+            "organisation_id": "abcefg",
+            "verified": True,
+        },
+        "mirko": {
+            "password": "hashhashhash",
+            "email": "email@gmail.com",
+            "organisation_id": "abcefg",
+        },
+    },
     "organisation": {
         "abcefg": {  # organisation id
             "name": "Zvono",
@@ -80,7 +94,7 @@ db_mock = {
                 {
                     "location": "Ruđera Boškovića 25",
                     "products_bought": [
-                        { 
+                        {
                             "category": "Negazirani sokovi",
                             "id": "product_1",
                             "ime": "Sirup borovnica 0,75 L Maraska",

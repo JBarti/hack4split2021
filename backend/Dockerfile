@@ -1,13 +1,16 @@
-FROM python:3-alpine
+FROM python:3.8
 
 LABEL Version 0.1
 LABEL Name h4s-backend
 
 WORKDIR /usr/src/app
 
+ENV version=production
+
+RUN apt update && apt install build-essential
 RUN pip install pipenv
 COPY . .
-RUN pipenv install --system --deploy --ignore-pipfile
+RUN pipenv install --verbose --system --deploy --ignore-pipfile
 
 EXPOSE 80
 
