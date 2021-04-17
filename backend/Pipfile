@@ -11,6 +11,7 @@ marshmallow = "*"
 cffi = "*"
 gunicorn = "*"
 passlib = "*"
+cryptography = "*"
 
 [dev-packages]
 jedi = "*"
