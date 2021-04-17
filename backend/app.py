@@ -99,8 +99,16 @@ def register_organisation(**kwargs):
 @use_kwargs(models.CampaignPostRequest)
 @marshal_with(models.CampaignPostResponse)
 @doc(description="Create campaign", tags=["campagin"])
+@authorized
 def create_campaign(**kwargs):
+    organisation = orgs.get_organisation_account(
+        email=session["username"],
+    )
     campaign_id, campaign = campaigns.create_campaign(**kwargs)
+    orgs.add_campaign(
+        organisation_id=organisation["id"],
+        **campaign
+    )
 
     return jsonify(
         models.CampaignPostResponse().dump({"campaign_id": campaign_id})

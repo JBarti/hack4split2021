@@ -31,6 +31,7 @@ db_mock = {
             "location": "Varazdinska 34",
             "lat": 45.092,
             "long": 16.313,
+            "finished_percent": 50,
             "goals": {  # Popis proizvoda trebaju za kampanju
                 "product_1": {  # Standardni barkod kojeg dobijemo sa glova
                     "category": "Negazirani sokovi",

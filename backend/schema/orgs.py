@@ -1,3 +1,5 @@
+from firebase_admin import firestore
+
 from helpers.auth_helper import hash_password
 from db import db
 
@@ -41,3 +43,20 @@ def get_organisation_account(email, password):
 def get_organisation(organisation_id):
     org = org_coll.document(organisation_id).get().to_dict()
     return org
+
+
+def add_campaign(organisation_id, tags, name, date_from, date_to, location):
+    campaign = {
+        "tags": tags,
+        "name": name,
+        "date_from": date_from,
+        "date_to": date_to,
+        "location": location,
+        "finished_percent": 0,
+    }
+
+    org_coll.document(organisation_id).update(
+        {"campaigns": firestore.ArrayUnion([campaign])}
+    )
+
+    return campaign

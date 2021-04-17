@@ -32,11 +32,10 @@ def create_campaign(
         "goals": goals,
         "slideshow_id": slideshow_id,
         "analytics_id": analytics_id,
+        "finished_percent": 0,
     }
 
     campaign_doc = campaigns_coll.document()
     campaign_doc.set(campaign)
 
     return campaign_doc.id, campaign
-
-
