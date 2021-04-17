@@ -5,7 +5,7 @@ from apispec import APISpec
 class Config:
     SECRET_KEY = "\xff^\x10ef\x8bn\x01'\xc9\x96\x8f\x97*6fHU\xf8\xfb\xb2?\x8a1"
     APISPEC_SPEC = APISpec(
-        title="pets",
+        title="donatQR",
         version="v1",
         plugins=[MarshmallowPlugin()],
         openapi_version="2.0.0"
