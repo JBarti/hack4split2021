@@ -1,12 +1,7 @@
-<<<<<<< HEAD
-import { useState, Fragment } from 'react';
-import { Drawer, List, Divider, ListItem, ListItemText, IconButton } from '@material-ui/core'
-=======
 import { React, useState, Fragment } from 'react';
 import {
   Drawer, List, Divider, ListItem, ListItemText, IconButton 
 } from '@material-ui/core';
->>>>>>> Fix :hammer:
 import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 
