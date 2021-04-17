@@ -4,13 +4,18 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-flask = "*"
+firebase-admin = "*"
+webargs = "*"
+flask-apispec = "*"
+marshmallow = "*"
+cffi = "*"
 gunicorn = "*"
+passlib = "*"
 
 [dev-packages]
 jedi = "*"
-black = "*"
 flake8 = "*"
+black = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.8"
