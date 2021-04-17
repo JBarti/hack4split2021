@@ -1,5 +1,14 @@
+<<<<<<< HEAD
 import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, Typography, Button, } from '@material-ui/core';
+=======
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import
+{
+  AppBar, Toolbar, Typography, Button,
+} from '@material-ui/core';
+>>>>>>> Fix :hammer:
 import TemporaryDrawer from './drawer';
 
 const useStyles = makeStyles((theme) => ({
@@ -14,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+<<<<<<< HEAD
 function Navbar(){
   const classes = useStyles();
   
@@ -21,6 +31,15 @@ function Navbar(){
     <AppBar position="static">
       <Toolbar>
         <TemporaryDrawer/>
+=======
+function Navbar() {
+  const classes = useStyles();
+
+  return (
+    <AppBar position="static">
+      <Toolbar>
+        <TemporaryDrawer />
+>>>>>>> Fix :hammer:
         <Typography variant="h6" className={classes.title}>
           donatQR
         </Typography>
