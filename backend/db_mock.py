@@ -55,29 +55,14 @@ db_mock = {
     },
     "slideshows": {
         "slides1": {  # id slideshowa
-            "slides1_1": {  # id slideshow slidea
-                "title": "Ovo je prvi slajd naseg slideshowa",
-                "description": "Ljudi potreseni su mega potreseni potresom",
-                "image": "https://picsum.photos/800/400",
-            },
-            "slides1_2": {
-                "title": "Ovo je prvi slajd naseg slideshowa",
-                "description": "Ljudi potreseni su mega potreseni potresom",
-                "image": "https://picsum.photos/800/400",
-            },
+            "title": "Ovo je prvi slajd naseg slideshowa",
+            "description": "Ljudi potreseni su mega potreseni potresom",
+            "image_urls": [
+                "https://picsum.photos/800/400",
+                "https://picsum.photos/800/400",
+                "https://picsum.photos/800/400",
+            ],
         },
-        "slides2": {
-            "slides2_1": {
-                "title": "Ovo je prvi slajd naseg slideshowa",
-                "description": "Ljudi potreseni su mega potreseni potresom",
-                "image": "https://picsum.photos/800/400",
-            },
-            "slides2_2": {
-                "title": "Ovo je prvi slajd naseg slideshowa",
-                "description": "Ljudi potreseni su mega potreseni potresom",
-                "image": "https://picsum.photos/800/400",
-            },
-        }
     },
     "analytics": {
         "anal1": {

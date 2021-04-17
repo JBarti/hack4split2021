@@ -8,7 +8,8 @@ from config import ConfigDev, ConfigProd
 from db import db
 import models
 from schema import (
-    orgs
+    orgs,
+    campaigns,
 )
 from helpers.auth_helper import verify_password, authorized
 
@@ -57,7 +58,7 @@ def authenticate_organisation_acc(**kwargs):
     if not verify_password(kwargs["password"], org_acc["password"]):
         return jsonify({"error": "Wrong credentials"}), 401
 
-    session["username"] = org_acc["username"]
+    session["username"] = org_acc["email"]
     print(org_acc)
     return jsonify(models.LoginPostResponse().dumps(org_acc))
 
@@ -83,12 +84,26 @@ def get_organisation(**kwargs):
 @marshal_with(models.RegisterPostResponse)
 @doc(description="Register organisation", tags=["organisation"])
 def register_organisation(**kwargs):
-    org_acc, organisation = orgs.create_organisation(**kwargs)
-    if not organisation:
-        return {"error": "Username already exists"}
-    session["username"] = org_acc["username"]
+    try:
+        org_acc, organisation = orgs.create_organisation(**kwargs)
+    except TypeError:
+        return jsonify({"error": "Email already exists"}), 409
+
+    session["username"] = org_acc["email"]
     return jsonify(
         models.RegisterPostResponse().dumps(org_acc)
+    )
+
+
+@app.route("/api/campaign", methods=["POST"])
+@use_kwargs(models.CampaignPostRequest)
+@marshal_with(models.CampaignPostResponse)
+@doc(description="Create campaign", tags=["campagin"])
+def create_campaign(**kwargs):
+    campaign_id, campaign = campaigns.create_campaign(**kwargs)
+
+    return jsonify(
+        models.CampaignPostResponse().dump({"campaign_id": campaign_id})
     )
 
 

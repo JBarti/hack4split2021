@@ -5,8 +5,8 @@ org_acc_coll = db.collection("organisation_accounts")
 org_coll = db.collection("organisation")
 
 
-def create_organisation(username, password, email, organisation_name):
-    user_document = org_acc_coll.document(username).get()
+def create_organisation(password, email, organisation_name):
+    user_document = org_acc_coll.document(email).get()
     user_exists = user_document.exists
 
     if user_exists:
@@ -22,20 +22,19 @@ def create_organisation(username, password, email, organisation_name):
     organisation_doc.set(organisation)
 
     org_acc = {
-        "username": username,
         "password": hash_password(password),
         "email": email,
         "verified": False,
         "organisation_id": organisation_doc.id,
     }
-    org_acc_doc = org_acc_coll.document(username)
+    org_acc_doc = org_acc_coll.document(email)
     org_acc_doc.set(org_acc)
 
     return org_acc, organisation
 
 
-def get_organisation_account(username, password):
-    org_acc = org_acc_coll.document(username).get().to_dict()
+def get_organisation_account(email, password):
+    org_acc = org_acc_coll.document(email).get().to_dict()
     return org_acc
 
 

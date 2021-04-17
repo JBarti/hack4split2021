@@ -14,4 +14,8 @@ class OrganisationGetResponse(Schema):
 
 
 class RegisterPostResponse(Schema):
-    organisation_id = fields.String()
+    organisation_id = fields.Str()
+
+
+class CampaignPostResponse(Schema):
+    campaign_id = fields.Str()
