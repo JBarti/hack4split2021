@@ -13,6 +13,7 @@ from schema import (
 )
 from glovo_api import GlovoApi
 from helpers.auth_helper import verify_password, authorized
+from helpers.storage_helpers import upload_file
 
 
 app = Flask(__name__, static_url_path="/", static_folder="static")
@@ -154,6 +155,14 @@ def get_products(**kwargs):
         models.ProductsGetResponse().dump({"products": products})
     )
 
+
+@app.route("/api/image", methods=["POST"])
+@doc(description="Store file", tags=["storage"])
+def store_image():
+    cover_photo = request.files["image"]
+    photo_name = cover_photo.filename
+    image_url = upload_file(photo_name, cover_photo)
+    return jsonify({"image_url": image_url})
 
 docs.register_existing_resources()
 
