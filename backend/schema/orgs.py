@@ -3,22 +3,25 @@ from time import time
 
 from helpers.auth_helper import hash_password
 from db import db
+from schema import slideshows
 
 org_acc_coll = db.collection("organisation_accounts")
 org_coll = db.collection("organisation")
 
 
-def create_organisation(password, email, organisation_name):
+def create_organisation(password, email, organisation_name, slideshow_data):
     user_document = org_acc_coll.document(email).get()
     user_exists = user_document.exists
 
     if user_exists:
         return None
 
+    slideshow_id, slideshow = slideshows.create_slideshow(**slideshow_data)
+
     organisation = {
         "name": organisation_name,
         "campaigns": {},
-        "slideshow_id": "",
+        "slideshow_id": slideshow_id,
     }
 
     organisation_doc = org_coll.document()

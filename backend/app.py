@@ -1,7 +1,9 @@
 import logging
 import os
+import requests
+from urllib.parse import quote_plus
 
-from flask import Flask, jsonify, session, request
+from flask import Flask, jsonify, session, request, render_template, url_for
 from flask_apispec import use_kwargs, marshal_with, doc, FlaskApiSpec
 
 from config import ConfigDev, ConfigProd
@@ -10,13 +12,14 @@ import models
 from schema import (
     orgs,
     campaigns,
+    slideshows,
 )
 from glovo_api import GlovoApi
 from helpers.auth_helper import verify_password, authorized
 from helpers.storage_helpers import upload_file
 
 
-app = Flask(__name__, static_url_path="/", static_folder="static")
+app = Flask(__name__, static_url_path="/static")
 version = os.environ.get("version")
 
 if version == "production":
@@ -62,7 +65,6 @@ def authenticate_organisation_acc(**kwargs):
         return jsonify({"error": "Wrong credentials"}), 401
 
     session["username"] = org_acc["email"]
-    print(org_acc)
     return jsonify(models.LoginPostResponse().dumps(org_acc))
 
 
@@ -72,11 +74,12 @@ def authenticate_organisation_acc(**kwargs):
 @doc(description="Get organisation data", tags=["organisation"])
 def get_organisation(**kwargs):
     organisation = orgs.get_organisation(**kwargs)
-    print(organisation)
     if not organisation:
         return jsonify({
             "error": "Organisation doesn't exist"
         })
+    slideshow = slideshows.get_slideshow(organisation["slideshow_id"])
+    organisation["slideshow"] = slideshow
     return jsonify(
         models.OrganisationGetResponse().dumps(organisation)
     )
@@ -86,7 +89,6 @@ def get_organisation(**kwargs):
 @use_kwargs(models.RegisterPostRequest, location="json")
 @marshal_with(models.RegisterPostResponse)
 @doc(description="Register organisation", tags=["organisation", "auth"])
-@authorized
 def register_organisation(**kwargs):
     try:
         org_acc, organisation = orgs.create_organisation(**kwargs)
@@ -189,7 +191,8 @@ def donate_to_campaign(**kwargs):
 @doc(tags=["campaign"])
 def get_campaign(**kwargs):
     campaign = campaigns.get_campaign(**kwargs)
-    print(campaign)
+    slideshow = slideshows.get_slideshow(campaign["slideshow_id"])
+    campaign["slideshow"] = slideshow
     return jsonify(
         models.CampaignGetResponse().dump(campaign)
     )
@@ -203,6 +206,20 @@ def store_image():
     photo_name = cover_photo.filename
     image_url = upload_file(photo_name, cover_photo)
     return jsonify({"image_url": image_url})
+
+
+@app.route("/api/qr")
+def create_qr_code():
+    organisation_id = request.args.get("organisation_id")
+    location = request.args.get("location")
+    location = quote_plus(location)
+    url = f"{request.base_url}/dashboard/{organisation_id}?location={location}"
+    qrcode_url = f"https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={url}"
+
+    return render_template(
+        "code.html",
+        qrcode_url=qrcode_url,
+    )
 
 
 docs.register_existing_resources()

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>title</title>
+		<style>
+		.vert_center {
+			margin: auto;
+			position: absolute;
+			top: 0; left: 0; bottom: 0; right: 0;
+			height: 100%;
+			width: auto;
+		}
+		.qrcode {
+			left: 15px;
+			height: 35%;
+			width: auto;
+		}
+
+		</style>
+	</head>
+	<body>
+		<img class="vert_center" src="{{ url_for('static', filename='wordart.png') }}">
+		<img class="vert_center qrcode" src="{{ qrcode_url }}">
+	</body>
+</html>
+

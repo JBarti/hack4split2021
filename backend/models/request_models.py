@@ -1,6 +1,12 @@
 from marshmallow import Schema, fields
 
 
+class SlideshowRequest(Schema):
+    title = fields.Str(required=True)
+    description = fields.Str(required=True)
+    image_urls = fields.List(fields.URL(), required=True)
+
+
 class LoginPostRequest(Schema):
     email = fields.Str(required=True)
     password = fields.Str(required=True)
@@ -14,6 +20,7 @@ class RegisterPostRequest(Schema):
     email = fields.Str(required=True)
     password = fields.Str(required=True)
     organisation_name = fields.Str(required=True)
+    slideshow_data = fields.Nested(SlideshowRequest, required=False)
 
 
 class ProductGoal(Schema):
@@ -22,22 +29,16 @@ class ProductGoal(Schema):
     donated = fields.Int(required=False, missing=0)
 
 
-class Slideshow(Schema):
-    title = fields.Str(required=True)
-    description = fields.Str(required=True)
-    image_urls = fields.List(fields.URL(), required=True)
-
-
 class CampaignPostRequest(Schema):
     tags = fields.List(fields.Str(), missing=[])
     name = fields.Str(required=True)
-    date_from = fields.DateTime(required=True, format="iso")
-    date_to = fields.DateTime(required=True, format="iso")
+    date_from = fields.Str(required=True)
+    date_to = fields.Str(required=True)
     location = fields.Str(required=True)
     lat = fields.Float(required=True)
     long = fields.Float(required=True)
     goals = fields.List(fields.Nested(ProductGoal), required=True)
-    slideshow_data = fields.Nested(Slideshow, required=True)
+    slideshow_data = fields.Nested(SlideshowRequest, required=True)
 
 
 class ProductsGetRequest(Schema):
