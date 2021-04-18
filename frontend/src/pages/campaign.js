@@ -11,10 +11,10 @@ function Campaign(){
       <Container>
         <PreviewCard 
           image="https://picsum.photos/300/200" 
-          name="Prikupljanje govana" 
+          name="" 
           endDate="2021-08-01"
-          address="Put svetog kurca 300"
-          description="Mlati kurcem po koprivama"
+          address=""
+          description=""
         >
           <ProgressBar value={20} />
         </PreviewCard>

@@ -14,6 +14,7 @@
     "ramda": "^0.27.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-geocode": "^0.2.3",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "web-vitals": "^1.0.1"
@@ -42,5 +43,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://hack4split-be-7alwlrls6a-uc.a.run.app"
+  "proxy": "http://172.21.11.134:5000"
 }

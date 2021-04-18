@@ -12,3 +12,5 @@ class Login {
 		return response.json()
 	}
 }
+
+export default Login;

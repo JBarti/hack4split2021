@@ -63,7 +63,7 @@ export default class Campaign {
 	}
 
 	static async get({campaign_id}) {
-		const response = await fetch(`/api/campaign?campaign_id={campaign_id}`)
+		const response = await fetch(`/api/campaign?campaign_id=${campaign_id}`)
 
 		return response.json()
 	}

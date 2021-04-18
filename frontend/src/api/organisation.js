@@ -1,6 +1,6 @@
-class Organisation {
+export default class Organisation {
 	static async get({organisation_id}) {
-		const response = await fetch(`/api/organisation?organisation_id={organisation_id}`)
+		const response = await fetch(`/api/organisation?organisation_id=${organisation_id}`)
 		
 		return response.json()
 	}
