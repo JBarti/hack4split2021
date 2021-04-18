@@ -4,6 +4,7 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles({
   list: {
@@ -34,12 +35,14 @@ function TemporaryDrawer() {
       onKeyDown={toggleDrawer(toggle, false)}
     >
       <List>
-        {['Profile', 'Dashboard'].map((text, index) => (
-          <ListItem button key={text}>
-
-            <ListItemText primary={text} />
+        <Link onClick={toggleDrawer(false)} to="/dashboard"  style={{textDecoration: "none", color: "black"}}>
+          <ListItem button key="Dashboard">
+            <ListItemText primary="Dashboard" />
           </ListItem>
-        ))}
+        </Link>
+        <ListItem button key="Profile">
+          <ListItemText primary="Profile" />
+        </ListItem>
       </List>
       <Divider />
       <List>

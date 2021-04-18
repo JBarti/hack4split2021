@@ -1,5 +1,5 @@
 import { Typography, Container } from '@material-ui/core';
-import PreviewCard from '../previewCard';
+import PreviewCard from '../../previewCard';
 
 function Step7(props){
   if (props.currentStep !== 7) { 

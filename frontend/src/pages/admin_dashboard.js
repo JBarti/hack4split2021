@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import Navbar from '../components/navbar';
 import MediaCard from '../components/card';
 import { Container } from '@material-ui/core';
 import TransitionModal from '../components/form/modal';
 import campaignsData from '../common/campaign';
+import { Link } from 'react-router-dom'
 
-function App() {
+function AdminDashboard() {
   const [campaigns, setCampaigns] = useState([...campaignsData])
 
   const onSubmit = (e, childState) => {
@@ -26,10 +26,13 @@ function App() {
   
   return (
     <div>
-      <Navbar />
       <Container maxWidth="sm" style={{marginTop:"1rem"}}>
         {campaigns.map(campaign => {
-          return <MediaCard key={Math.random()} name={campaign.name} creator={campaign.creator} image={campaign.images[0]}/>
+          return(
+            <Link to="/campaign/1" style={{textDecoration: "none"}}>
+              <MediaCard key={Math.random()} name={campaign.name} creator={campaign.creator} image={campaign.images[0]}/>
+            </Link>
+          )
         })}
         <TransitionModal onSubmit={onSubmit}/>
       </Container>
@@ -37,4 +40,4 @@ function App() {
   );
 }
 
-export default App;
+export default AdminDashboard;
