@@ -12,6 +12,8 @@ class Config:
     )
     APISPEC_SWAGGER_URL = "/api/swagger/"
     APISPEC_SWAGGER_UI_URL = "/api/swagger-ui"
+    TEMPLATE_FOLDER = "./templates"
+    STATIC_FOLDER = "static"
 
 
 class ConfigDev(Config):
