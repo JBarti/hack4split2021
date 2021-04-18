@@ -79,9 +79,9 @@ Inicijator: Udruga MoSt, licencirami posrednik u doniranju hrane.
 		<Container maxWidth="sm" style={{marginTop:"1rem"}}>
 		{campaigns.map(campaign => {
 			return(
-				<Link to="/api/qr?organisation_id=0R6X5abEU7Gaiz1CXQbt&location=varazdinska34Split" style={{textDecoration: "none"}}>
+				<a href="/api/qr?organisation_id=0R6X5abEU7Gaiz1CXQbt&location=varazdinska34Split"> 
 				<MediaCard key={Math.random()} name={campaign.name} creator={campaign.creator} image={campaign.images[0]}/>
-				</Link>
+				</a>
 			)
 		})}
 		<TransitionModal onSubmit={onSubmit}/>
