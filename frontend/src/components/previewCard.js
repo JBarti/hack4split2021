@@ -28,14 +28,15 @@ export default function PreviewCard(props) {
             <Typography gutterBottom variant="h5" component="h2">
               {props.name}
             </Typography>
+            {props.children}
             <Typography variant="body2" color="textSecondary" component="p">
-              {props.endDate}
+              <b>Kraj kampanje:</b> {props.endDate}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-              {props.description}
+              <b>Opis:</b> {props.description}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-              {props.address}
+              <b>Adresa dostave:</b> {props.address}
             </Typography>
           </CardContent>
         </CardActionArea>
