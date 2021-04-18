@@ -1,9 +1,8 @@
 class Organisation {
 	static async get({organisation_id}) {
 		const response = await fetch(`/api/organisation?organisation_id={organisation_id}`)
-		if (response.ok) {
-			return response.json()
-		}
+		
+		return response.json()
 	}
 
 	static async register({email, organisation_name, password}) {

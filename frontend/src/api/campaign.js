@@ -49,7 +49,7 @@ export default class Campaign {
 				"location": "string"
 			}
 		*/
-		const request = await fetch('/api/campaign/donate', {
+		const response = await fetch('/api/campaign/donate', {
 			method: "POST",
 			body: JSON.stringify({
 				campaign_id: campaign_id,
@@ -58,5 +58,13 @@ export default class Campaign {
 			}),
 			headers: {"Content-Type": "application/json"}
 		})
+
+		return response.json()
+	}
+
+	static async get({campaign_id}) {
+		const response = await fetch(`/api/campaign?campaign_id={campaign_id}`)
+
+		return response.json()
 	}
 }
