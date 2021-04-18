@@ -19,23 +19,22 @@ function TemporaryDrawer() {
   const classes = useStyles();
   const [toggle, setState] = useState(false);
 
-  const toggleDrawer = (open) => (event) => {
+/*   const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
     }
 
     setState(open);
-  };
+  }; */
 
   const list = () => (
     <div
       className={classes.list}
       role="presentation"
-      onClick={toggleDrawer(toggle, false)}
-      onKeyDown={toggleDrawer(toggle, false)}
+      onClick={() => setState(!toggle)}
     >
       <List>
-        <Link onClick={toggleDrawer(false)} to="/dashboard"  style={{textDecoration: "none", color: "black"}}>
+        <Link onClick={() => setState(!toggle)} to="/dashboard"  style={{textDecoration: "none", color: "black"}}>
           <ListItem button key="Dashboard">
             <ListItemText primary="Dashboard" />
           </ListItem>
@@ -58,10 +57,10 @@ function TemporaryDrawer() {
   return (
     <div>
       <Fragment>
-        <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={toggleDrawer(true)}>
+        <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={()=> setState(!toggle)}>
           {<MenuIcon></MenuIcon>}
         </IconButton>
-        <Drawer open={toggle} onClose={toggleDrawer(false)}>
+        <Drawer open={toggle} onClose={() => setState(!toggle)}>
           {list()}
         </Drawer>
       </Fragment>
