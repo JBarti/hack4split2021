@@ -2,26 +2,31 @@ import { useState } from 'react';
 import MediaCard from '../components/card';
 import { Container } from '@material-ui/core';
 import TransitionModal from '../components/form/modal';
-import campaignsData from '../common/campaign';
 import { Link } from 'react-router-dom'
+import { Campaign } from '../api';
 
 function AdminDashboard() {
-  const [campaigns, setCampaigns] = useState([...campaignsData])
+  const [campaigns, setCampaigns] = useState([])
 
   const onSubmit = (e, childState) => {
     e.preventDefault();
 
     const newCampaign = {
       name: childState.name,
-      creator: "Udruga Most", //Dohvatit iz argumenta rute preko ID-a
-      description: childState.description,
-      images: childState.images,
-      items: childState.items,
-      address: childState.address,
-      startDate: childState.startDate,
-      endDate: childState.endDate,
+      slideshow_data: {
+        description: childState.description,
+        image_urls: childState.images,
+      },
+      goals: childState.items,
+      location: childState.address,
+      date_from: childState.startDate,
+      date_to: childState.endDate,
+      tags: [],
+      delivery_lat: 1,
+      delivery_lon: 1,
     }
     setCampaigns([...campaigns, newCampaign]);
+    Campaign.create(newCampaign)
   }
   
   return (

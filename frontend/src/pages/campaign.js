@@ -2,6 +2,7 @@ import { Fragment, useState, useEffect } from 'react';
 import { Container } from '@material-ui/core';
 import PreviewCard from '../components/previewCard';
 import ProgressBar from '../components/progressBar';
+import ItemCard from '../components/itemCard'
 
 function Campaign(){
   const [campaign, setCampaign] = useState({});
@@ -18,6 +19,8 @@ function Campaign(){
         >
           <ProgressBar value={20} />
         </PreviewCard>
+        <ItemCard name="Suncokretovo ulje" current={2} total={10}></ItemCard>
+
       </Container>
     </Fragment>
   );
