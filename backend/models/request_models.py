@@ -19,7 +19,7 @@ class RegisterPostRequest(Schema):
 class ProductGoal(Schema):
     id = fields.Int(required=True)
     goal = fields.Int(required=True, validate=lambda x: x > 0)
-    to_be_ordered = fields.Int(required=False, default=0)
+    donated = fields.Int(required=False, missing=0)
 
 
 class Slideshow(Schema):
@@ -29,7 +29,7 @@ class Slideshow(Schema):
 
 
 class CampaignPostRequest(Schema):
-    tags = fields.List(fields.Str(), default=[])
+    tags = fields.List(fields.Str(), missing=[])
     name = fields.Str(required=True)
     date_from = fields.DateTime(required=True, format="iso")
     date_to = fields.DateTime(required=True, format="iso")
@@ -44,3 +44,18 @@ class ProductsGetRequest(Schema):
     search_term = fields.Str(required=True)
     lat = fields.Float(required=True)
     long = fields.Float(required=True)
+
+
+class CampaignDonation(Schema):
+    id = fields.Int(required=True)
+    donated = fields.Int(required=True)
+
+
+class CampaignDonatePostRequest(Schema):
+    campaign_id = fields.Str(required=True)
+    donations = fields.List(fields.Nested(CampaignDonation))
+    location = fields.Str(required=False)
+
+
+class CampaignGetRequest(Schema):
+    campaign_id = fields.Str(required=True)

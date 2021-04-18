@@ -39,7 +39,7 @@ db_mock = {
                     "ime": "Sirup borovnica 0,75 L Maraska",
                     "price": 16.99,
                     "imageUrl": "https://i.postimg.cc/Njdj8z6P/3850158104122.png",
-                    "to_be_ordered": 100,
+                    "donated": 100,
                     "goal": 500,
                 },
                 "product_2": {  # Standardni barkod kojeg dobijemo sa glova

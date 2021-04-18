@@ -1,7 +1,7 @@
 from db import db
-from schema import slideshows, analytics
+from schema import slideshows, analytics, orgs
 
-campaigns_coll = db.collection("campagins")
+campaigns_coll = db.collection("campaigns")
 
 
 def create_campaign(
@@ -14,6 +14,7 @@ def create_campaign(
     long,
     goals,
     slideshow_data,
+    organisation_id,
 ):
     slideshow_id, slideshow = slideshows.create_slideshow(
         slideshow_data["title"],
@@ -33,9 +34,45 @@ def create_campaign(
         "slideshow_id": slideshow_id,
         "analytics_id": analytics_id,
         "finished_percent": 0,
+        "organisation_id": organisation_id,
     }
 
     campaign_doc = campaigns_coll.document()
     campaign_doc.set(campaign)
 
     return campaign_doc.id, campaign
+
+
+def get_campaign(campaign_id):
+    campaign = campaigns_coll.document(campaign_id).get().to_dict()
+    return campaign
+
+
+def donate(campaign_id, donations):
+    donations_by_id = {
+        donation["id"]: donation
+        for donation in donations
+    }
+    campaign = get_campaign(campaign_id)
+    goals = campaign["goals"]
+
+    total = 0
+    needed = 0
+    for goal in goals:
+        needed += goal["goal"]
+        if goal["id"] not in donations_by_id:
+            continue
+        goal["donated"] = donations_by_id[goal["id"]]["donated"]
+        total += goal["donated"]
+
+    campaign["finished_percent"] = (total // needed) * 100
+    campaigns_coll.document(campaign_id).set(campaign)
+
+    organisation_id = campaign["organisation_id"]
+    orgs.update_campaign_progress(
+        organisation_id,
+        campaign_id,
+        campaign["finished_percent"],
+    )
+
+    return campaign

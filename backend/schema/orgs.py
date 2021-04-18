@@ -17,7 +17,7 @@ def create_organisation(password, email, organisation_name):
 
     organisation = {
         "name": organisation_name,
-        "campaigns": [],
+        "campaigns": {},
         "slideshow_id": "",
     }
 
@@ -43,10 +43,18 @@ def get_organisation_account(email):
 
 def get_organisation(organisation_id):
     org = org_coll.document(organisation_id).get().to_dict()
+    org_campaigns_coll = org_coll.document(organisation_id).collection("campaigns")
+    org_campaigns = [
+        org_campaign.to_dict()
+        for org_campaign in org_campaigns_coll.get()
+    ]
+
+    org["campaigns"] = org_campaigns
+
     return org
 
 
-def add_campaign(organisation_id, tags, name, date_from, date_to, location):
+def add_campaign(organisation_id, campaign_id, tags, name, date_from, date_to, location):
     campaign = {
         "tags": tags,
         "name": name,
@@ -54,11 +62,14 @@ def add_campaign(organisation_id, tags, name, date_from, date_to, location):
         "date_to": date_to,
         "location": location,
         "finished_percent": 0,
-        "created_at": time(),
     }
 
-    org_coll.document(organisation_id).update(
-        {"campaigns": ArrayUnion([campaign])}
-    )
+    org_campaigns_coll = org_coll.document(organisation_id).collection("campaigns")
+    org_campaigns_coll.document(campaign_id).set(campaign)
 
     return campaign
+
+
+def update_campaign_progress(organisation_id, campaign_id, finished_percent):
+    org_campaigns_coll = org_coll.document(organisation_id).collection("campaigns")
+    org_campaigns_coll.document(campaign_id).update({"finished_percent": finished_percent})

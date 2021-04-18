@@ -33,6 +33,7 @@ def handle_error(err):
     print(err)
     headers = err.data.get("headers", None)
     messages = err.data.get("messages", ["Invalid request."])
+    print(messages)
     if headers:
         return jsonify({"errors": messages}), err.code, headers
     else:
@@ -69,9 +70,9 @@ def authenticate_organisation_acc(**kwargs):
 @use_kwargs(models.OrganisationGetRequest, location="query")
 @marshal_with(models.OrganisationGetResponse)
 @doc(description="Get organisation data", tags=["organisation"])
-@authorized
 def get_organisation(**kwargs):
     organisation = orgs.get_organisation(**kwargs)
+    print(organisation)
     if not organisation:
         return jsonify({
             "error": "Organisation doesn't exist"
@@ -84,7 +85,8 @@ def get_organisation(**kwargs):
 @app.route("/api/organisation/register", methods=["POST"])
 @use_kwargs(models.RegisterPostRequest, location="json")
 @marshal_with(models.RegisterPostResponse)
-@doc(description="Register organisation", tags=["organisation"])
+@doc(description="Register organisation", tags=["organisation", "auth"])
+@authorized
 def register_organisation(**kwargs):
     try:
         org_acc, organisation = orgs.create_organisation(**kwargs)
@@ -103,6 +105,7 @@ def register_organisation(**kwargs):
 @doc(description="Create campaign", tags=["campagin"])
 @authorized
 def create_campaign(**kwargs):
+    print(kwargs["goals"])
     goals = kwargs["goals"]
     goals_by_id = {
         goal["id"]: goal
@@ -124,9 +127,13 @@ def create_campaign(**kwargs):
     organisation_acc = orgs.get_organisation_account(
         email=session["username"],
     )
-    campaign_id, campaign = campaigns.create_campaign(**kwargs)
+    campaign_id, campaign = campaigns.create_campaign(
+        organisation_id=organisation_acc["organisation_id"],
+        **kwargs
+    )
     orgs.add_campaign(
         organisation_id=organisation_acc["organisation_id"],
+        campaign_id=campaign_id,
         tags=campaign["tags"],
         name=campaign["name"],
         date_from=campaign["date_from"],
@@ -161,8 +168,36 @@ def get_products(**kwargs):
     )
 
 
+@app.route("/api/campaign/donate", methods=["POST"])
+@use_kwargs(models.CampaignDonatePostRequest, location="json")
+@marshal_with(models.CampaignDonatePostResponse)
+@doc(description="Add items to campaign basket", tags=["campaign"])
+def donate_to_campaign(**kwargs):
+    campaigns.donate(
+        kwargs["campaign_id"],
+        kwargs["donations"],
+    )
+
+    return jsonify(
+        models.CampaignDonatePostResponse().dump({"campaign_id": kwargs["campaign_id"]})
+    )
+
+
+@app.route("/api/campaign", methods=["GET"])
+@use_kwargs(models.CampaignGetRequest, location="query")
+@marshal_with(models.CampaignGetResponse)
+@doc(tags=["campaign"])
+def get_campaign(**kwargs):
+    campaign = campaigns.get_campaign(**kwargs)
+    print(campaign)
+    return jsonify(
+        models.CampaignGetResponse().dump(campaign)
+    )
+
+
 @app.route("/api/image", methods=["POST"])
 @doc(description="Store file", tags=["storage"])
+@authorized
 def store_image():
     cover_photo = request.files["image"]
     photo_name = cover_photo.filename
