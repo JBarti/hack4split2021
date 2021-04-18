@@ -1,3 +1,6 @@
+from google.cloud.firestore import ArrayUnion
+from time import time
+
 from helpers.auth_helper import hash_password
 from db import db
 
@@ -5,8 +8,8 @@ org_acc_coll = db.collection("organisation_accounts")
 org_coll = db.collection("organisation")
 
 
-def create_organisation(username, password, email, organisation_name):
-    user_document = org_acc_coll.document(username).get()
+def create_organisation(password, email, organisation_name):
+    user_document = org_acc_coll.document(email).get()
     user_exists = user_document.exists
 
     if user_exists:
@@ -14,7 +17,7 @@ def create_organisation(username, password, email, organisation_name):
 
     organisation = {
         "name": organisation_name,
-        "campaigns": [],
+        "campaigns": {},
         "slideshow_id": "",
     }
 
@@ -22,23 +25,51 @@ def create_organisation(username, password, email, organisation_name):
     organisation_doc.set(organisation)
 
     org_acc = {
-        "username": username,
         "password": hash_password(password),
         "email": email,
         "verified": False,
         "organisation_id": organisation_doc.id,
     }
-    org_acc_doc = org_acc_coll.document(username)
+    org_acc_doc = org_acc_coll.document(email)
     org_acc_doc.set(org_acc)
 
     return org_acc, organisation
 
 
-def get_organisation_account(username, password):
-    org_acc = org_acc_coll.document(username).get().to_dict()
+def get_organisation_account(email):
+    org_acc = org_acc_coll.document(email).get().to_dict()
     return org_acc
 
 
 def get_organisation(organisation_id):
     org = org_coll.document(organisation_id).get().to_dict()
+    org_campaigns_coll = org_coll.document(organisation_id).collection("campaigns")
+    org_campaigns = [
+        org_campaign.to_dict()
+        for org_campaign in org_campaigns_coll.get()
+    ]
+
+    org["campaigns"] = org_campaigns
+
     return org
+
+
+def add_campaign(organisation_id, campaign_id, tags, name, date_from, date_to, location):
+    campaign = {
+        "tags": tags,
+        "name": name,
+        "date_from": date_from,
+        "date_to": date_to,
+        "location": location,
+        "finished_percent": 0,
+    }
+
+    org_campaigns_coll = org_coll.document(organisation_id).collection("campaigns")
+    org_campaigns_coll.document(campaign_id).set(campaign)
+
+    return campaign
+
+
+def update_campaign_progress(organisation_id, campaign_id, finished_percent):
+    org_campaigns_coll = org_coll.document(organisation_id).collection("campaigns")
+    org_campaigns_coll.document(campaign_id).update({"finished_percent": finished_percent})

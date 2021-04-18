@@ -31,6 +31,7 @@ db_mock = {
             "location": "Varazdinska 34",
             "lat": 45.092,
             "long": 16.313,
+            "finished_percent": 50,
             "goals": {  # Popis proizvoda trebaju za kampanju
                 "product_1": {  # Standardni barkod kojeg dobijemo sa glova
                     "category": "Negazirani sokovi",
@@ -38,7 +39,7 @@ db_mock = {
                     "ime": "Sirup borovnica 0,75 L Maraska",
                     "price": 16.99,
                     "imageUrl": "https://i.postimg.cc/Njdj8z6P/3850158104122.png",
-                    "to_be_ordered": 100,
+                    "donated": 100,
                     "goal": 500,
                 },
                 "product_2": {  # Standardni barkod kojeg dobijemo sa glova
@@ -55,29 +56,14 @@ db_mock = {
     },
     "slideshows": {
         "slides1": {  # id slideshowa
-            "slides1_1": {  # id slideshow slidea
-                "title": "Ovo je prvi slajd naseg slideshowa",
-                "description": "Ljudi potreseni su mega potreseni potresom",
-                "image": "https://picsum.photos/800/400",
-            },
-            "slides1_2": {
-                "title": "Ovo je prvi slajd naseg slideshowa",
-                "description": "Ljudi potreseni su mega potreseni potresom",
-                "image": "https://picsum.photos/800/400",
-            },
+            "title": "Ovo je prvi slajd naseg slideshowa",
+            "description": "Ljudi potreseni su mega potreseni potresom",
+            "image_urls": [
+                "https://picsum.photos/800/400",
+                "https://picsum.photos/800/400",
+                "https://picsum.photos/800/400",
+            ],
         },
-        "slides2": {
-            "slides2_1": {
-                "title": "Ovo je prvi slajd naseg slideshowa",
-                "description": "Ljudi potreseni su mega potreseni potresom",
-                "image": "https://picsum.photos/800/400",
-            },
-            "slides2_2": {
-                "title": "Ovo je prvi slajd naseg slideshowa",
-                "description": "Ljudi potreseni su mega potreseni potresom",
-                "image": "https://picsum.photos/800/400",
-            },
-        }
     },
     "analytics": {
         "anal1": {

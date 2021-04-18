@@ -5,6 +5,7 @@ from firebase_admin import (
     credentials,
     initialize_app,
     firestore,
+    storage,
 )
 
 key = b'spPdFn6nT445YFc7-EwJePMOh4vLWWTvqRQbnWhn76U='
@@ -20,6 +21,8 @@ with open("./credentials2.json", "w") as creds:
 cred = credentials.Certificate("./credentials2.json")
 initialize_app(cred, {
     "databaseURL": "https://hack4split2021.firebaseio.com",
+    "storageBucket": "hack4split2021.appspot.com",
 })
 
 db = firestore.client()
+bucket = storage.bucket()
