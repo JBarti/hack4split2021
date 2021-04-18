@@ -18,10 +18,6 @@ class RegisterPostRequest(Schema):
 
 class ProductGoal(Schema):
     id = fields.Int(required=True)
-    category = fields.Str(required=True)
-    name = fields.Str(required=True)
-    image_url = fields.URL(required=True)
-    price = fields.Float(required=True)
     goal = fields.Int(required=True, validate=lambda x: x > 0)
     to_be_ordered = fields.Int(required=False, default=0)
 
@@ -42,3 +38,8 @@ class CampaignPostRequest(Schema):
     long = fields.Float(required=True)
     goals = fields.List(fields.Nested(ProductGoal), required=True)
     slideshow_data = fields.Nested(Slideshow, required=True)
+
+
+class ProductsGetRequest(Schema):
+    lat = fields.Float(required=True)
+    long = fields.Float(required=True)

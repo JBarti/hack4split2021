@@ -19,3 +19,16 @@ class RegisterPostResponse(Schema):
 
 class CampaignPostResponse(Schema):
     campaign_id = fields.Str()
+
+
+class GlovoProducts(Schema):
+    id = fields.Int()
+    category = fields.Str()
+    name = fields.Str()
+    category = fields.Str()
+    price = fields.Int()
+    image_url = fields.URL()
+
+
+class ProductsGetResponse(Schema):
+    products = fields.List(fields.Nested(GlovoProducts))

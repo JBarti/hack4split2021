@@ -1,4 +1,5 @@
-from firebase_admin import firestore
+from google.cloud.firestore import ArrayUnion
+from time import time
 
 from helpers.auth_helper import hash_password
 from db import db
@@ -35,7 +36,7 @@ def create_organisation(password, email, organisation_name):
     return org_acc, organisation
 
 
-def get_organisation_account(email, password):
+def get_organisation_account(email):
     org_acc = org_acc_coll.document(email).get().to_dict()
     return org_acc
 
@@ -53,10 +54,11 @@ def add_campaign(organisation_id, tags, name, date_from, date_to, location):
         "date_to": date_to,
         "location": location,
         "finished_percent": 0,
+        "created_at": time(),
     }
 
     org_coll.document(organisation_id).update(
-        {"campaigns": firestore.ArrayUnion([campaign])}
+        {"campaigns": ArrayUnion([campaign])}
     )
 
     return campaign
