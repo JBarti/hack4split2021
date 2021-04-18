@@ -19,7 +19,7 @@ from helpers.auth_helper import verify_password, authorized
 from helpers.storage_helpers import upload_file
 
 
-app = Flask(__name__, static_url_path="/static")
+app = Flask(__name__, static_url_path="/")
 version = os.environ.get("version")
 
 if version == "production":
