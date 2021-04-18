@@ -41,5 +41,6 @@ class CampaignPostRequest(Schema):
 
 
 class ProductsGetRequest(Schema):
+    search_term = fields.Str(required=True)
     lat = fields.Float(required=True)
     long = fields.Float(required=True)

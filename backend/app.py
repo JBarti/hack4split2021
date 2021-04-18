@@ -143,16 +143,21 @@ def create_campaign(**kwargs):
 @use_kwargs(models.ProductsGetRequest, location="query")
 @marshal_with(models.ProductsGetResponse)
 @doc(description="Get items from glovo api", tags=["glovo api"])
-@authorized
 def get_products(**kwargs):
-    print(kwargs)
+    search_term = kwargs["search_term"]
     glovo_api = GlovoApi(
         lat=kwargs["lat"],
         lon=kwargs["long"],
     )
     products = glovo_api.get_products()
+    filtered_products = [
+        product
+        for product in products
+        if search_term in product["name"].lower()
+    ][:20]
+
     return jsonify(
-        models.ProductsGetResponse().dump({"products": products})
+        models.ProductsGetResponse().dump({"products": filtered_products})
     )
 
 
@@ -163,6 +168,7 @@ def store_image():
     photo_name = cover_photo.filename
     image_url = upload_file(photo_name, cover_photo)
     return jsonify({"image_url": image_url})
+
 
 docs.register_existing_resources()
 
